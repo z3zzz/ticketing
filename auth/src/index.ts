@@ -1,5 +1,6 @@
 import { app } from './app';
 import { PORT, POSTGRES_URL } from './constants';
+import { initialQuery } from './models';
 
 app.listen({ port: PORT, host: '0.0.0.0' }, (err, url) => {
   if (err) {
@@ -9,10 +10,16 @@ app.listen({ port: PORT, host: '0.0.0.0' }, (err, url) => {
 
   app.pg.connect((err) => {
     if (err) {
-      app.log.error(err);
+      app.log.error(`Postgres connection ERROR on ${POSTGRES_URL}`);
       process.exit(1);
     }
 
-    app.log.info(`Postgres successfully connected. ${POSTGRES_URL}`);
+    app.log.info(`Postgres connected at ${POSTGRES_URL}`);
+
+    app.pg.query(initialQuery, (err) => {
+      if (err) {
+        app.log.error(err);
+      }
+    });
   });
 });
