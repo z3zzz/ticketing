@@ -3,6 +3,7 @@ import {
   FastifyPluginOptions,
   RouteShorthandOptions,
 } from 'fastify';
+import { BadRequestError } from '../errors';
 
 interface PostSignup {
   Body: {
