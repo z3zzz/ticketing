@@ -1,6 +1,11 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
-import { greetingRoutes, signupRoutes } from './routes';
+import {
+  greetingRoutes,
+  signinRoutes,
+  signoutRoutes,
+  signupRoutes,
+} from './routes';
 import { postgres } from './plugins';
 
 export const app = Fastify({
@@ -16,3 +21,5 @@ app.register(postgres);
 
 app.register(greetingRoutes);
 app.register(signupRoutes);
+app.register(signinRoutes);
+app.register(signoutRoutes);

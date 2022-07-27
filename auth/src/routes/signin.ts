@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
 import { userService } from '../services';
 
-interface PostSignup {
+interface PostSignin {
   Body: {
     email: string;
     password: string;
@@ -11,7 +11,7 @@ interface PostSignup {
   };
 }
 
-export async function signupRoutes(
+export async function signinRoutes(
   app: FastifyInstance,
   options: FastifyPluginOptions
 ) {
@@ -37,11 +37,12 @@ export async function signupRoutes(
     },
   };
 
-  app.post<PostSignup>('/signup', opts, async (req, res) => {
+  app.post<PostSignin>('/signin', opts, async (req, res) => {
     const { email, password } = req.body;
 
-    await userService.signup({ email, password });
+    await userService.signin({ email, password });
 
+    app.log.info(`user-signin: ${email}`);
     return { result: 'success' };
   });
 }
