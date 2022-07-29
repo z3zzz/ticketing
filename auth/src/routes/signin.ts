@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
-import { jwtService, signService } from '../services';
+import { signService } from '../services';
 
 interface PostSignin {
   Body: {
@@ -43,7 +43,7 @@ export async function signinRoutes(
     const { id } = await signService.signin({ email, password });
     app.log.info(`user-signin: ${email}`);
 
-    const token = jwtService.createToken({ id, email });
+    const token = app.jwt.sign({ id, email });
     res.setCookie('jwt', token, { signed: true });
 
     return { result: 'success' };
