@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
+import { cookieOpt } from '../plugins/cookie';
 import { signService } from '../services';
 
 interface PostSignup {
@@ -41,10 +42,11 @@ export async function signupRoutes(
     const { email, password } = req.body;
 
     const { id } = await signService.signup({ email, password });
-    const token = app.jwt.sign({ id, email });
+    const token = await res.jwtSign({ id, email });
 
-    res.setCookie('jwt', token, { signed: true });
+    res.setCookie('jwt', token, cookieOpt);
     res.code(201);
+
     return { result: 'success' };
   });
 }
