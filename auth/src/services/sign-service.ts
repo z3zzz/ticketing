@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import { BadRequestError } from '../errors';
-import { UserAttr, userModel } from '../models';
+import { UserAttr, userModel, Id } from '../models';
 
 export class SignService {
-  async signup({ email, password }: UserAttr): Promise<void> {
+  async signup({ email, password }: UserAttr): Promise<Id> {
     const foundUser = await userModel.findByEmail(email);
 
     if (foundUser) {
@@ -12,10 +12,12 @@ export class SignService {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    await userModel.create({ email, password: passwordHash });
+    const { id } = await userModel.create({ email, password: passwordHash });
+
+    return { id };
   }
 
-  async signin({ email, password }: UserAttr): Promise<void> {
+  async signin({ email, password }: UserAttr): Promise<Id> {
     const foundUser = await userModel.findByEmail(email);
 
     if (!foundUser) {
@@ -24,7 +26,7 @@ export class SignService {
       );
     }
 
-    const { password: passwordHash } = foundUser;
+    const { id, password: passwordHash } = foundUser;
     const isPasswordCorrect = await bcrypt.compare(password, passwordHash);
 
     if (!isPasswordCorrect) {
@@ -32,6 +34,8 @@ export class SignService {
         'Signin failed. Please check email and password'
       );
     }
+
+    return { id };
   }
 
   async signout({ email, password }: UserAttr): Promise<void> {

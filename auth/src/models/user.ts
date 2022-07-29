@@ -1,5 +1,9 @@
 import { app } from '../app';
 
+export interface Id {
+  id: number;
+}
+
 export interface UserAttr {
   email: string;
   password: string;
@@ -26,10 +30,14 @@ export class UserModel {
     return rows[0];
   }
 
-  async create({ email, password }: UserAttr): Promise<{ isCreated: boolean }> {
-    const { rowCount } = await app.pg.query(`
+  async create({
+    email,
+    password,
+  }: UserAttr): Promise<{ isCreated: boolean; id: number }> {
+    const { rows, rowCount } = await app.pg.query<Id>(`
       INSERT INTO users (email, password) 
       VALUES ('${email}', '${password}')
+      RETURNING id
     `);
 
     app.log.info(
@@ -38,7 +46,7 @@ export class UserModel {
 
     const isCreated = rowCount === 1 ? true : false;
 
-    return { isCreated };
+    return { isCreated, id: rows[0]?.id };
   }
 
   async findAll(limit: number = 20, offset: number = 20): Promise<UserData[]> {

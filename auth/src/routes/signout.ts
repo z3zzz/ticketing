@@ -41,8 +41,10 @@ export async function signoutRoutes(
     const { email, password } = req.body;
 
     await signService.signout({ email, password });
-
     app.log.info(`user-signout: ${email}`);
+
+    res.clearCookie('jwt');
+
     return { result: 'success' };
   });
 }
