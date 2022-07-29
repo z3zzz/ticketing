@@ -16,8 +16,8 @@ export interface UserData {
 }
 
 export class UserModel {
-  private LIMIT = 20;
-  private OFFSET = 0;
+  private DEFAULT_LIMIT = 20;
+  private DEFAULT_OFFSET = 0;
 
   async findByEmail(email: string): Promise<UserData> {
     const { rows } = await app.pg.query<UserData>(`
@@ -49,7 +49,10 @@ export class UserModel {
     return { isCreated, id: rows[0]?.id };
   }
 
-  async findAll(limit: number = 20, offset: number = 20): Promise<UserData[]> {
+  async findAll(
+    limit: number = this.DEFAULT_LIMIT,
+    offset: number = this.DEFAULT_OFFSET
+  ): Promise<UserData[]> {
     const { rows } = await app.pg.query<UserData>(`
       SELECT * 
       FROM users 

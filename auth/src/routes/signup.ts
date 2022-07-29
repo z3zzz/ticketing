@@ -27,7 +27,7 @@ export async function signupRoutes(
         additionalProperties: false,
       },
       response: {
-        200: {
+        201: {
           type: 'object',
           properties: {
             result: { enum: ['success', 'fail'] },
@@ -44,6 +44,7 @@ export async function signupRoutes(
     const token = app.jwt.sign({ id, email });
 
     res.setCookie('jwt', token, { signed: true });
+    res.code(201);
     return { result: 'success' };
   });
 }

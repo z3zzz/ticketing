@@ -19,7 +19,7 @@ export const jwt = fastifyPlugin(async (fastify, options) => {
     },
   });
 
-  fastify.decorate('authenticate', async function (req: FastifyRequest) {
+  fastify.decorate('authenticate', async (req: FastifyRequest) => {
     try {
       await req.jwtVerify();
     } catch {
