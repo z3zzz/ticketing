@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
-import { userService } from '../services';
+import { signService } from '../services';
 
 interface PostSignout {
   Body: {
@@ -40,7 +40,7 @@ export async function signoutRoutes(
   app.post<PostSignout>('/signout', opts, async (req, res) => {
     const { email, password } = req.body;
 
-    await userService.signout({ email, password });
+    await signService.signout({ email, password });
 
     app.log.info(`user-signout: ${email}`);
     return { result: 'success' };

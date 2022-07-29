@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { BadRequestError } from '../errors';
 import { UserAttr, userModel } from '../models';
 
-export class UserService {
+export class SignService {
   async signup({ email, password }: UserAttr): Promise<void> {
     const foundUser = await userModel.findByEmail(email);
 
@@ -52,4 +52,4 @@ export class UserService {
   }
 }
 
-export const userService = new UserService();
+export const signService = new SignService();
