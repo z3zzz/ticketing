@@ -7,10 +7,19 @@ import {
   signupRoutes,
 } from './routes';
 import { cors, cookie, postgres, jwt } from './plugins';
+import { NODE_ENV } from './constants';
 
 // main
 export const app = Fastify({
-  logger: true,
+  logger: {
+    transport:
+      NODE_ENV !== 'production'
+        ? {
+            target: 'pino-pretty',
+            options: { ignore: 'pid,hostname' },
+          }
+        : undefined,
+  },
   disableRequestLogging: true,
 });
 

@@ -2,7 +2,7 @@ import fastifyPlugin from 'fastify-plugin';
 import fastifyJwt from '@fastify/jwt';
 import { JWT_SECRET_KEY } from '../constants';
 import { FastifyRequest } from 'fastify';
-import { BadRequestError } from '../errors';
+import { UnAuthorizedError } from '../errors';
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -23,7 +23,7 @@ export const jwt = fastifyPlugin(async (fastify, options) => {
     try {
       await req.jwtVerify();
     } catch {
-      throw new BadRequestError('getUser: Invalid crendial token');
+      throw new UnAuthorizedError('getUser: Invalid crendial token');
     }
   });
 });

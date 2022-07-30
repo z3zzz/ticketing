@@ -45,7 +45,7 @@ export async function signinRoutes(
     app.log.info(`user-signin: ${email}`);
 
     const token = await res.jwtSign({ id, email });
-    res.setCookie('jwt', token, cookieOpt);
+    res.setCookie('token', token, cookieOpt);
 
     return { result: 'success' };
   });

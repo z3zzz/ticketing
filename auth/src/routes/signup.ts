@@ -44,7 +44,7 @@ export async function signupRoutes(
     const { id } = await signService.signup({ email, password });
     const token = await res.jwtSign({ id, email });
 
-    res.setCookie('jwt', token, cookieOpt);
+    res.setCookie('token', token, cookieOpt);
     res.code(201);
 
     return { result: 'success' };

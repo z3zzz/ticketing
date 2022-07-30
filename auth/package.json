@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "main": "index.ts",
   "license": "MIT",
-  "types": "index.d.ts",
   "scripts": {
-    "start": "nodemon src/index.ts --exec ts-node | pino-pretty",
+    "start": "nodemon src/index.ts --exec ts-node",
     "build": "esbuild ./src --bundle --minify --platform=node --external:pg-native --outfile=dist/index.js",
-    "prod": "node dist/index.js | pino-pretty",
-    "test": "jest --forceExit --detectOpenHandles"
+    "prod": "node dist/index.js",
+    "test": "jest --watchAll --forceExit --detectOpenHandles"
   },
   "dependencies": {
     "@fastify/cookie": "^7.3.1",
@@ -30,7 +29,7 @@
     "@babel/preset-env": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
     "@types/bcrypt": "^5.0.0",
-    "@types/jest": "^28.1.4",
+    "@types/jest": "^28.1.6",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^18.0.0",
     "@types/pg": "^8.6.5",

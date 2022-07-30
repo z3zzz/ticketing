@@ -30,10 +30,14 @@ export async function greetingRoutes(
   };
 
   app.get<GetGreeting>('/', opts['/'], async (req, res) => {
+    return { greeting: 'Hi! It works!' };
+  });
+
+  app.get<GetGreeting>('/postgres', opts['/'], async (req, res) => {
     // postgress connection check
     const { rowCount } = await app.pg.query('SELECT * from users');
     app.log.info(`Rows in users table: ${rowCount}`);
 
-    return { greeting: 'Hi! It works!' };
+    return { greeting: 'Postgres works!' };
   });
 }
