@@ -9,7 +9,7 @@ export const cookieOpt: CookieSerializeOptions = {
   path: '/',
   secure: NODE_ENV === 'production', // send cookie over HTTPS only
   httpOnly: true,
-  sameSite: true, // alternative CSRF protection
+  sameSite: NODE_ENV === 'production', // alternative CSRF protection
   signed: true, // encrypt cookie,
 };
 
