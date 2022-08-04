@@ -4,9 +4,9 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/index.ts --exec ts-node",
+    "dev": "nodemon src/index.ts --exec ts-node",
     "build": "esbuild ./src --bundle --minify --platform=node --external:pg-native --outfile=dist/index.js",
-    "prod": "node dist/index.js",
+    "start": "node dist/index.js",
     "test": "jest --watchAll --forceExit --detectOpenHandles"
   },
   "dependencies": {
