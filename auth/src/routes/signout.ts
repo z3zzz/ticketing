@@ -1,11 +1,6 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
-import { signService } from '../services';
 
-interface PostSignout {
-  Body: {
-    email: string;
-    password: string;
-  };
+interface GetSignout {
   Reply: {
     result: 'success' | 'fail';
   };
@@ -17,15 +12,6 @@ export async function signoutRoutes(
 ) {
   const opts = {
     schema: {
-      body: {
-        type: 'object',
-        properties: {
-          email: { type: 'string', format: 'email' },
-          password: { type: 'string', minLength: 4, maxLength: 20 },
-        },
-        required: ['email', 'password'],
-        additionalProperties: false,
-      },
       response: {
         200: {
           type: 'object',
@@ -35,15 +21,11 @@ export async function signoutRoutes(
         },
       },
     },
+    onRequest: [app.authenticate],
   };
 
-  app.post<PostSignout>('/signout', opts, async (req, res) => {
-    const { email, password } = req.body;
-
-    await signService.signout({ email, password });
-    app.log.info(`user-signout: ${email}`);
-
-    res.clearCookie('jwt');
+  app.get<GetSignout>('/signout', opts, (req, res) => {
+    res.clearCookie('token');
 
     return { result: 'success' };
   });

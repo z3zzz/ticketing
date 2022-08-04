@@ -13,91 +13,27 @@ describe('signout test', () => {
     await app.pg.query(cleanupQuery`email ${EMAIL}`);
   });
 
-  it('POST "/signout" sends Bad Request for email', async () => {
-    const res = await app.inject({
-      method: 'post',
-      url: '/signout',
-      payload: {
-        email: 'abc@example',
-        password: '1234',
-      },
-    });
-
-    const body = JSON.parse(res.body);
-
-    expect(res.statusCode).toBe(400);
-    expect(body.message).toMatch(/email/);
-  });
-
-  it('POST "/signout" sends Bad Request for password', async () => {
-    const res = await app.inject({
-      method: 'post',
-      url: '/signout',
-      payload: {
-        email: 'abc@example.com',
-        password: '12',
-      },
-    });
-
-    const body = JSON.parse(res.body);
-
-    expect(res.statusCode).toBe(400);
-    expect(body.message).toMatch(/password/);
-  });
-
-  it('POST "/signout" sends Bad Request wrong credential-email', async () => {
-    const res = await app.inject({
-      method: 'post',
-      url: '/signout',
-      payload: {
-        ...tester,
-        email: 'wrong@example.com',
-      },
-    });
-
-    const body = JSON.parse(res.body);
-
-    expect(res.statusCode).toBe(400);
-    expect(body.message).toMatch(/This email does not exist/i);
-  });
-
-  it('POST "/signout" sends Bad Request wrong credential-password', async () => {
-    await getAuthCookie(EMAIL);
-
-    const res = await app.inject({
-      method: 'post',
-      url: '/signout',
-      payload: {
-        email: EMAIL,
-        password: '4321dakfoba241',
-      },
-    });
-
-    const body = JSON.parse(res.body);
-
-    expect(res.statusCode).toBe(400);
-    expect(body.message).toMatch(/Password does not match/i);
-  });
-
-  it('POST "/signout" sends {result: success} deleting "token" cookie', async () => {
+  it('GET "/signout" sends {result: success} deleting "token" cookie', async () => {
     const cookie = await getAuthCookie(EMAIL);
 
     const res = await app.inject({
-      method: 'post',
+      method: 'get',
       url: '/signout',
       payload: {
         ...tester,
         email: EMAIL,
       },
+      cookies: {
+        token: cookie,
+      },
     });
 
     const body = JSON.parse(res.body);
 
-    const cookieObj = expect.objectContaining({ name: 'token', value: cookie });
-    const cookies = expect.arrayContaining([cookieObj]);
+    const cookieObj = expect.objectContaining({ name: 'token', value: '' });
 
     expect(res.statusCode).toBe(200);
-    expect(res.cookies).not.toEqual(cookies);
+    expect(res.cookies).toContainEqual(cookieObj);
     expect(body.result).toBe('success');
   });
 });

@@ -3,8 +3,9 @@ import {
   currentUserRoutes,
   greetingRoutes,
   signinRoutes,
-  signoutRoutes,
+  removeUserRoutes,
   signupRoutes,
+  signoutRoutes,
 } from './routes';
 import { cors, cookie, postgres, jwt } from './plugins';
 import { NODE_ENV } from './constants';
@@ -34,4 +35,5 @@ app.register(greetingRoutes);
 app.register(signupRoutes);
 app.register(signinRoutes);
 app.register(signoutRoutes);
+app.register(removeUserRoutes);
 app.register(currentUserRoutes);
