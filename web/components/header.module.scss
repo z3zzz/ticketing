@@ -1,0 +1,51 @@
+$gray: #d9d9d9;
+$maxWidth: 1080px;
+
+.container {
+  max-width: $maxWidth;
+  margin: 0 auto;
+  width: 100%;
+
+  .nav {
+    background-color: $gray;
+  }
+}
+
+.links {
+  display: flex;
+
+  .linkLogo {
+    display: block;
+    padding: 0.5rem 1rem;
+    flex-grow: 1;
+  }
+
+  .link {
+    display: block;
+    padding: 0.5rem 1rem;
+    flex: none;
+  }
+
+  .button {
+    display: block;
+    padding: 0 1rem;
+    border: none;
+    background-color: $gray;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+}
+
+.userBox {
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  padding-right: 1rem;
+
+  .user {
+    display: block;
+    position: absolute;
+    top: 0;
+    font-size: 0.8rem;
+  }
+}
