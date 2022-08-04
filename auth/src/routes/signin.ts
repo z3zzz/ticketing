@@ -8,7 +8,8 @@ interface PostSignin {
     password: string;
   };
   Reply: {
-    result: 'success' | 'fail';
+    id: number;
+    email: string;
   };
 }
 
@@ -31,7 +32,8 @@ export async function signinRoutes(
         200: {
           type: 'object',
           properties: {
-            result: { enum: ['success', 'fail'] },
+            id: { type: 'number' },
+            email: { type: 'string', format: 'email' },
           },
         },
       },
@@ -47,6 +49,6 @@ export async function signinRoutes(
     const token = await res.jwtSign({ id, email });
     res.setCookie('token', token, cookieOpt);
 
-    return { result: 'success' };
+    return { id, email };
   });
 }

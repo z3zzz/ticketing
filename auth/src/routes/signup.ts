@@ -8,7 +8,8 @@ interface PostSignup {
     password: string;
   };
   Reply: {
-    result: 'success' | 'fail';
+    id: number;
+    email: string;
   };
 }
 
@@ -31,7 +32,8 @@ export async function signupRoutes(
         201: {
           type: 'object',
           properties: {
-            result: { enum: ['success', 'fail'] },
+            id: { type: 'number' },
+            email: { type: 'string', format: 'email' },
           },
         },
       },
@@ -47,6 +49,6 @@ export async function signupRoutes(
     res.setCookie('token', token, cookieOpt);
     res.code(201);
 
-    return { result: 'success' };
+    return { id, email };
   });
 }

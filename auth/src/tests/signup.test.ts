@@ -13,7 +13,7 @@ describe('signup test', () => {
     await app.pg.query(cleanupQuery`email ${EMAIL}`);
   });
 
-  it('POST "/signup" sends {result: success} with "token" cookie', async () => {
+  it('POST "/signup" sends {email: Email} with "token" cookie', async () => {
     const res = await app.inject({
       method: 'post',
       url: '/signup',
@@ -26,11 +26,10 @@ describe('signup test', () => {
     const body = JSON.parse(res.body);
 
     const cookieObj = expect.objectContaining({ name: 'token' });
-    const cookies = expect.arrayContaining([cookieObj]);
 
     expect(res.statusCode).toBe(201);
-    expect(res.cookies).toEqual(cookies);
-    expect(body.result).toBe('success');
+    expect(res.cookies).toContainEqual(cookieObj);
+    expect(body.email).toBe(EMAIL);
   });
 
   it('POST "/signup" sends Bad Request for email', async () => {
