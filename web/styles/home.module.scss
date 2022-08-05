@@ -1,5 +1,9 @@
+$maxWidth: 1080px;
+
 .container {
+  max-width: $maxWidth;
   min-height: 100vh;
+  margin: 0 auto;
   display: flex;
 }
 
