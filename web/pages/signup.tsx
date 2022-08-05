@@ -4,6 +4,7 @@ import EmailPasswordForm from '../components/email-password-form';
 import Head from '../components/head';
 import { doLogin, useAppDispatch, useAppSelector } from '../states';
 import { sendRequest } from '../utils';
+import { GetStaticProps } from 'next';
 
 const Signup: React.FC = () => {
   const { email, password } = useAppSelector((state) => state.form);
@@ -39,6 +40,15 @@ const Signup: React.FC = () => {
       </div>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  return {
+    props: {
+      isProtected: true,
+      criteria: 'beforeLogin',
+    },
+  };
 };
 
 export default Signup;

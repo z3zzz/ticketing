@@ -3,15 +3,18 @@ import { doLogin, doLogout, useAppDispatch, useAppSelector } from '../states';
 import { sendRequest } from '../utils';
 import Link from './link';
 import styles from './header.module.scss';
+import { useRouter } from 'next/router';
 
 const Header: React.FC = () => {
   const { isLogin, user } = useAppSelector((state) => state.login);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     dispatch(doLogout());
+    router.push('/');
   };
 
   useEffect(() => {

@@ -12,7 +12,10 @@ interface LoginState {
   user: User | null;
 }
 
-const initialState = { isLogin: false, user: null } as LoginState;
+const initialState = {
+  isLogin: false,
+  user: null,
+} as LoginState;
 
 const loginSlice = createSlice({
   name: 'login',

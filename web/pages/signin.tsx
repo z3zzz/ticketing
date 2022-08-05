@@ -4,12 +4,14 @@ import EmailPasswordForm from '../components/email-password-form';
 import Head from '../components/head';
 import { doLogin, useAppSelector, useAppDispatch } from '../states';
 import { sendRequest } from '../utils';
+import { GetStaticProps } from 'next';
 
 const Signin: React.FC = () => {
   const { email, password } = useAppSelector((state) => state.form);
   const dispatch = useAppDispatch();
   const [error, setError] = useState<any>(null);
   const router = useRouter();
+  const previous = router.query.previous as string;
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,8 +28,8 @@ const Signin: React.FC = () => {
       setError(data);
     } else {
       setError(null);
+      previous ? router.replace(previous) : router.replace('/');
       dispatch(doLogin(data));
-      router.replace('/');
     }
   };
 
@@ -39,6 +41,15 @@ const Signin: React.FC = () => {
       </div>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  return {
+    props: {
+      isProtected: true,
+      criteria: 'beforeLogin',
+    },
+  };
 };
 
 export default Signin;
