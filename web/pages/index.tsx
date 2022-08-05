@@ -1,11 +1,12 @@
 import CenterText from '../components/center-text';
 import Head from '../components/head';
+import styles from '../styles/Home.module.css';
 
 const Home: React.FC = () => {
   return (
-    <div>
+    <div className={styles.container}>
       <Head title="TicketCreature" />
-      <CenterText title="Get Tickets Now!" />
+      <CenterText title="Get Tickets Now!" href="/tickets" />
     </div>
   );
 };

@@ -1,0 +1,12 @@
+.box {
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .text {
+    display: block;
+    padding-bottom: 10rem;
+  }
+}
