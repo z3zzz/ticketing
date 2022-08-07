@@ -1,6 +1,6 @@
 import CenterText from '../components/center-text';
 import Head from '../components/head';
-import styles from '../styles/home.module.scss';
+import styles from '../styles/common.module.scss';
 
 const Home: React.FC = () => {
   return (
