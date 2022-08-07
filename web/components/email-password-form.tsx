@@ -4,9 +4,10 @@ import {
   useAppSelector,
   useAppDispatch,
 } from '../states';
-import { ErrorResponse } from '../utils';
+import type { ErrorResponse } from '../utils';
 import InputItem from './input-item';
 import Link from './link';
+import styles from './email-password-form.module.scss';
 
 interface EmailPasswordFormProps {
   onSubmit: React.FormEventHandler<HTMLFormElement>;
@@ -33,43 +34,53 @@ const EmailPasswordForm: React.FC<EmailPasswordFormProps> = ({
   };
 
   return (
-    <div className="form">
-      <form onSubmit={onSubmit}>
-        <InputItem
-          label="email"
-          type="email"
-          placeholder="abc@example.com"
-          initialValue={email}
-          setGlobalValue={setEmailValue}
-        />
-        <InputItem
-          label="password"
-          type="password"
-          initialValue={password}
-          setGlobalValue={setPasswordValue}
-        />
-        <button className="button">{buttonText}</button>
-      </form>
-      {error && <span>{error.message}</span>}
-      {isSignin && (
-        <div className="extra">
-          <div className="forgot">
-            <Link
-              href="#find-password"
-              title="Forgot password?"
-              className="forgotLink"
-            />
-          </div>
-          <div className="line"></div>
-          <div className="create">
-            <Link
-              href="/signup"
-              title="Create new account"
-              className="createLink"
-            />
-          </div>
+    <div className={styles.container}>
+      <div className={styles.columns}>
+        <div className={styles.column}>
+          <h1 className={styles.h1}>TicketCreature</h1>
+          <h2 className={styles.h2}>Buy and sell the world&apos;s</h2>
+          <h2 className={styles.h2}>tickets, whenever you want.</h2>
         </div>
-      )}
+        <div className={styles.form}>
+          <form onSubmit={onSubmit}>
+            <InputItem
+              label=""
+              type="email"
+              placeholder="Email"
+              initialValue={email}
+              setGlobalValue={setEmailValue}
+            />
+            <InputItem
+              label=""
+              type="password"
+              placeholder="Password"
+              initialValue={password}
+              setGlobalValue={setPasswordValue}
+            />
+            {error && <span className={styles.error}>{error.message}</span>}
+            <button className={styles.button}>{buttonText}</button>
+          </form>
+          {isSignin && (
+            <div className={styles.extra}>
+              <div className={styles.forgot}>
+                <Link
+                  href="#find-password"
+                  title="Forgot password?"
+                  className={styles.forgotLink}
+                />
+              </div>
+              <div className={styles.line}></div>
+              <div className={styles.create}>
+                <Link
+                  href="/signup"
+                  title="Create new account"
+                  className={styles.createLink}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

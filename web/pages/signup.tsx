@@ -35,9 +35,7 @@ const Signup: React.FC = () => {
   return (
     <div>
       <Head title="signup" />
-      <div className="container">
-        <EmailPasswordForm onSubmit={onSubmit} type="signup" error={error} />
-      </div>
+      <EmailPasswordForm onSubmit={onSubmit} type="signup" error={error} />
     </div>
   );
 };

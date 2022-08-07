@@ -5,10 +5,18 @@ import Link from './link';
 import styles from './header.module.scss';
 import { useRouter } from 'next/router';
 
+enum links {
+  home = '/',
+  signup = '/signup',
+  signin = '/signin',
+  tickets = '/tickets',
+}
+
 const Header: React.FC = () => {
   const { isLogin, user } = useAppSelector((state) => state.login);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const currentLink = router.pathname;
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -38,12 +46,39 @@ const Header: React.FC = () => {
       <div className={styles.container}>
         <nav className={styles.nav}>
           <div className={styles.links}>
-            <Link href="/" title="TicketCreature" className={styles.linkLogo} />
+            <Link
+              href={links.home}
+              title="TicketCreature"
+              className={styles.linkLogo}
+            />
             {!isLogin && (
-              <Link href="/signup" title="Signup" className={styles.link} />
+              <Link
+                href={links.signup}
+                title="Signup"
+                className={
+                  currentLink === links.signup ? styles.activeLink : styles.link
+                }
+              />
             )}
             {!isLogin && (
-              <Link href="/signin" title="Signin" className={styles.link} />
+              <Link
+                href={links.signin}
+                title="Signin"
+                className={
+                  currentLink === links.signin ? styles.activeLink : styles.link
+                }
+              />
+            )}
+            {isLogin && (
+              <Link
+                href={links.tickets}
+                title="Tickets"
+                className={
+                  currentLink === links.tickets
+                    ? styles.activeLink
+                    : styles.link
+                }
+              />
             )}
             {isLogin && (
               <button className={styles.button} onClick={onClick}>

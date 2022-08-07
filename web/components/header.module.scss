@@ -20,6 +20,13 @@ $maxWidth: 1080px;
     flex-grow: 1;
   }
 
+  .activeLink {
+    display: block;
+    padding: 0.5rem 1rem;
+    flex: none;
+    color: #aaa;
+  }
+
   .link {
     display: block;
     padding: 0.5rem 1rem;
