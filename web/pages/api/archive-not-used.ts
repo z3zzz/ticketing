@@ -22,7 +22,7 @@ export default async function handler(
   const method = req.method as 'GET' | 'POST';
   const payload = req.body;
 
-  const { data, isError } = await sendRequest({ url, method, payload });
+  const { data, isError } = await sendRequest({ path: url, method, payload });
 
   if (isError) {
     const err = data as ErrorResponse;
