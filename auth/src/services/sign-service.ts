@@ -1,8 +1,12 @@
-import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 import { BadRequestError } from '../errors';
 import { UserAttr, userModel, Id } from '../models';
 
 export class SignService {
+  private iteration = 1000;
+  private keylen = 32;
+  private digest = 'sha512';
+
   async signup({ email, password }: UserAttr): Promise<Id> {
     const foundUser = await userModel.findByEmail(email);
 
@@ -10,7 +14,7 @@ export class SignService {
       throw new BadRequestError('This email is already being used');
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await this.generateHash(password);
 
     const { id } = await userModel.create({ email, password: passwordHash });
 
@@ -27,7 +31,7 @@ export class SignService {
     }
 
     const { id, password: passwordHash } = foundUser;
-    const isPasswordCorrect = await bcrypt.compare(password, passwordHash);
+    const isPasswordCorrect = await this.compare(password, passwordHash);
 
     if (!isPasswordCorrect) {
       throw new BadRequestError(
@@ -46,13 +50,58 @@ export class SignService {
     }
 
     const { password: passwordHash } = foundUser;
-    const isPasswordCorrect = await bcrypt.compare(password, passwordHash);
+    const isPasswordCorrect = await this.compare(password, passwordHash);
 
     if (!isPasswordCorrect) {
       throw new BadRequestError('Password does not match');
     }
 
     await userModel.deleteByEmail(email);
+  }
+
+  private async generateHash(password: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const salt = crypto.randomBytes(16).toString('hex');
+
+      crypto.pbkdf2(
+        password,
+        salt,
+        this.iteration,
+        this.keylen,
+        this.digest,
+        (err, derivedKey) => {
+          if (err) {
+            reject(err);
+          }
+
+          resolve(salt + ':' + derivedKey.toString('hex'));
+        }
+      );
+    });
+  }
+
+  private async compare(
+    password: string,
+    passwordHash: string
+  ): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const [salt, key] = passwordHash.split(':');
+
+      crypto.pbkdf2(
+        password,
+        salt,
+        this.iteration,
+        this.keylen,
+        this.digest,
+        (err, derivedKey) => {
+          if (err) {
+            reject(err);
+          }
+
+          resolve(derivedKey.toString('hex') === key);
+        }
+      );
+    });
   }
 }
 
