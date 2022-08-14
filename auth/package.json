@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/index.ts --exec ts-node",
-    "build": "esbuild ./src --bundle --minify --platform=node --external:pg-native --outfile=dist/index.js",
+    "build": "node esbuild.config.js",
     "start": "node dist/index.js",
     "test": "jest --watchAll --forceExit --detectOpenHandles"
   },
@@ -34,6 +34,7 @@
     "@types/node": "^18.0.0",
     "@types/pg": "^8.6.5",
     "esbuild": "^0.14.47",
+    "esbuild-plugin-pino": "^1.2.2",
     "jest": "^28.1.2",
     "nodemon": "^2.0.18",
     "ts-node": "^10.8.1",
