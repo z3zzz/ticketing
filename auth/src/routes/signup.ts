@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
-import { cookieOpt } from '../plugins/cookie';
+import { cookieOpt } from '@kwangtickets/common';
 import { signService } from '../services';
 
 interface PostSignup {

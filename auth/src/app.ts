@@ -7,7 +7,7 @@ import {
   signupRoutes,
   signoutRoutes,
 } from './routes';
-import { cors, cookie, postgres, jwt } from './plugins';
+import { cors, cookie, postgres, jwt } from '@kwangtickets/common';
 import { NODE_ENV } from './constants';
 
 // main

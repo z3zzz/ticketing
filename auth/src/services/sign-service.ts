@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { BadRequestError } from '../errors';
+import { BadRequestError } from '@kwangtickets/common';
 import { UserAttr, userModel, Id } from '../models';
 
 export class SignService {
