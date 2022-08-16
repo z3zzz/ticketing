@@ -1,13 +1,8 @@
 import { app } from '../app';
 import { cleanupQuery } from '../models';
-import { tester, prepareTest } from './config/setup';
+import { TESTER, TICKET, prepareTest } from './config/setup';
 
 describe('post-ticket test', () => {
-  const TICKET = {
-    title: 'test-ticket',
-    price: '494410',
-  };
-
   beforeAll(async () => {
     await prepareTest();
   });
@@ -21,7 +16,7 @@ describe('post-ticket test', () => {
       method: 'post',
       url: '/ticket',
       payload: TICKET,
-      cookies: { token: tester.cookie },
+      cookies: { token: TESTER.cookie },
     });
 
     const body = JSON.parse(res.body);
@@ -39,7 +34,7 @@ describe('post-ticket test', () => {
         title: 'a',
         price: '1234',
       },
-      cookies: { token: tester.cookie },
+      cookies: { token: TESTER.cookie },
     });
 
     const body = JSON.parse(res.body);
@@ -56,7 +51,7 @@ describe('post-ticket test', () => {
         title: 'abc',
         price: '1111111111111111111111111',
       },
-      cookies: { token: tester.cookie },
+      cookies: { token: TESTER.cookie },
     });
 
     const body = JSON.parse(res.body);

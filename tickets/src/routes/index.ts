@@ -1,2 +1,3 @@
 export { greetingRoutes } from './greeting';
-export { PostTicketRoutes } from './post-ticket';
+export { postTicketRoutes } from './post-ticket';
+export { getTicketRoutes } from './get-ticket';

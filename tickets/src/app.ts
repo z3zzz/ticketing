@@ -1,5 +1,5 @@
 import Fastify from 'fastify';
-import { greetingRoutes, PostTicketRoutes } from './routes';
+import { getTicketRoutes, greetingRoutes, postTicketRoutes } from './routes';
 import { cors, cookie, postgres, jwt } from '@kwangtickets/common';
 import { NODE_ENV } from './constants';
 
@@ -25,4 +25,5 @@ app.register(jwt);
 
 // routes
 app.register(greetingRoutes);
-app.register(PostTicketRoutes);
+app.register(postTicketRoutes);
+app.register(getTicketRoutes);

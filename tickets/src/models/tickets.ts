@@ -12,9 +12,9 @@ export interface TicketAttr {
 
 export interface TicketData {
   id: number;
+  user_id: number;
   title: string;
   price: string;
-  userId: string;
 }
 
 export class TicketModel {
