@@ -19,7 +19,7 @@ export interface UpdateTicketAttr {
 
 export interface TicketData {
   id: number;
-  user_id: number;
+  userId: number;
   title: string;
   price: string;
 }
@@ -30,7 +30,7 @@ export class TicketModel {
 
   async findById(id: string): Promise<TicketData> {
     const { rows } = await app.pg.query<TicketData>(`
-      SELECT * 
+      SELECT *, user_id AS "userId"
       FROM tickets 
       WHERE id = '${id}'
     `);
@@ -41,7 +41,7 @@ export class TicketModel {
 
   async findByUserId(userId: string): Promise<TicketData> {
     const { rows } = await app.pg.query<TicketData>(`
-      SELECT * 
+      SELECT *, user_id AS "userId"
       FROM tickets 
       WHERE user_id = '${userId}'
     `);
@@ -75,7 +75,7 @@ export class TicketModel {
     offset: number = this.DEFAULT_OFFSET
   ): Promise<TicketData[]> {
     const { rows } = await app.pg.query<TicketData>(`
-      SELECT * 
+      SELECT *, user_id AS "userId" 
       FROM tickets 
       LIMIT ${limit}
       OFFSET ${offset}

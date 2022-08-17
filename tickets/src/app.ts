@@ -1,6 +1,7 @@
 import Fastify from 'fastify';
 import {
   getTicketRoutes,
+  getTicketsRoutes,
   greetingRoutes,
   patchTicketRoutes,
   postTicketRoutes,
@@ -32,4 +33,5 @@ app.register(jwt);
 app.register(greetingRoutes);
 app.register(postTicketRoutes);
 app.register(getTicketRoutes);
+app.register(getTicketsRoutes);
 app.register(patchTicketRoutes);
