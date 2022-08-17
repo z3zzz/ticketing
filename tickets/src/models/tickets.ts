@@ -1,4 +1,5 @@
 import { app } from '../app';
+import { updateQuery } from './update-query';
 
 export interface Id {
   id: number;
@@ -8,6 +9,12 @@ export interface TicketAttr {
   title: string;
   price: string;
   userId: string;
+}
+
+export interface UpdateTicketAttr {
+  id: string;
+  title?: string;
+  price?: string;
 }
 
 export interface TicketData {
@@ -75,6 +82,26 @@ export class TicketModel {
     `);
 
     return rows;
+  }
+
+  async update({
+    id,
+    title,
+    price,
+  }: UpdateTicketAttr): Promise<{ isUpdated: boolean }> {
+    const { rowCount } = await app.pg.query(updateQuery`
+      title ${title ? title : ''}
+      price ${price ? price : ''}
+      id ${id}
+    `);
+
+    app.log.info(
+      `ticket-update: ${rowCount ? 'updated' : 'not-updated'}, ${id}`
+    );
+
+    const isUpdated = rowCount === 1 ? true : false;
+
+    return { isUpdated };
   }
 
   async deleteById(id: string): Promise<{ isDeleted: boolean }> {
